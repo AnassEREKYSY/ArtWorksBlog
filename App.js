@@ -12,6 +12,7 @@ import UsersHome from './components/UsersHome.component';
 import FormCreateModifyArtWork from './components/FormCreateModifyArtWork.component';
 import DeletePopUp from './components/DeletePopUp.component';
 import { useState } from 'react';
+import Navigation from './navigation/Navigation.component'
 
 export default function App() {
 
@@ -20,9 +21,9 @@ export default function App() {
     <View style={styles.container}>
       {/* <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" /> */}
-      <FromConnexion setUser={setUser} />
+      {/* <FromConnexion setUser={setUser} /> */}
       {/* <FormCreateModifyArtWork title="Add" btn="Create"/> */}
-      {/* <HomeManagement/> */}
+      <HomeManagement/>
       {/* <UserProfil /> */}
       {/* <UserCard /> */}
       {/* <ArtWorkCard /> */}

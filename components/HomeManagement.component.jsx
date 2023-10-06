@@ -2,7 +2,15 @@ import { StyleSheet, Text, View, TouchableHighlight,TouchableOpacity } from 'rea
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const HomeManagement = () => {
+const HomeManagement = ({navigation}) => {
+    const handleClick = (type) => {
+        if(type==="user"){
+            navigation.navigate('usersHome')
+        }else{
+            navigation.navigate('home')
+        }
+        
+    }
   return (
     <View>
       <View style={styles.icons}>
@@ -16,10 +24,10 @@ const HomeManagement = () => {
       </View>
       
       <View style={styles.btnBox}>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={function(){}} style={styles.btn}>
+            <TouchableHighlight underlayColor="#A9A9A9" onPress={handleClick("user")} style={styles.btn}>
                 <Text style={styles.btnTxt}>Users Management</Text>
             </TouchableHighlight>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={function(){}} style={styles.btn}>
+            <TouchableHighlight underlayColor="#A9A9A9" onPress={handleClick("art")} style={styles.btn}>
                 <Text style={styles.btnTxt}>ArtWorks Management</Text>
             </TouchableHighlight>
       </View>
