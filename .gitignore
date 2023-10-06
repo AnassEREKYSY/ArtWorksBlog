@@ -8,6 +8,9 @@ node_modules/
 dist/
 web-build/
 
+# Ignore sensitive configuration files
+config.js
+
 # Native
 *.orig.*
 *.jks
