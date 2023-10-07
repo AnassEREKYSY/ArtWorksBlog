@@ -23,9 +23,8 @@ export default function App() {
 
     <NavigationContainer>
         <Stack.Navigator>
-            
-            <Stack.Screen component={HomeManagement} name="homeManagement" options={{ headerShown: false }}/>
             <Stack.Screen component={FromConnexion} name="connexion"  options={{ headerShown: false }}/>
+            <Stack.Screen component={HomeManagement} name="homeManagement" options={{ headerShown: false }}/>
             <Stack.Screen component={Home} name="home"  options={{ headerShown: false }}/>
             <Stack.Screen component={ArtWorkDetails} name="details"  options={{ headerShown: false }} />
             <Stack.Screen component={FormCreateModifyArtWork} name="CrMdArt"  options={{ headerShown: false }}/>

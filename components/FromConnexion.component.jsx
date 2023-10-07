@@ -23,7 +23,11 @@ const FromConnexion = ({navigation}) => {
         else{
             setEmail(email);
             setPassword(password);
-            navigation.navigate("home" , { identifiants : {email , password} })   
+            if(user.role==="admin"){
+                navigation.navigate("homeManagement" , { identifiants : {email:email , password:password} }) 
+            }else{
+                navigation.navigate("home" , { identifiants : {email:email , password:password} }) 
+            }  
         }
 
        

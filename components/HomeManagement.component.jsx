@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View, TouchableHighlight,TouchableOpacity } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useRoute } from '@react-navigation/native';
 
 const HomeManagement = ({navigation}) => {
+    const route = useRoute();
+    const data=route.params;
   return (
     <View style={styles.main}>
       <View style={styles.icons}>
-            <TouchableOpacity style={styles.homeIcon} onPress={function(){}}>
+            <TouchableOpacity style={styles.homeIcon} onPress={()=>navigation.navigate("userProfil" , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password,role:"admin"} }) }>
                 <Icon name="user" size={30} color="#66CDBB" />
             </TouchableOpacity>
             <Text style={styles.text}>Home</Text>

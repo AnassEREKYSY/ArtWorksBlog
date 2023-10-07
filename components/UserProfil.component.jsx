@@ -20,9 +20,12 @@ const UserProfil = (props) => {
                 <TouchableHighlight underlayColor="#A9A9A9" onPress={function(){}} style={styles.btnUpdate}>
                         <Text style={styles.btnTxt}>Update</Text>
                 </TouchableHighlight>
+                {
+                   data.identifiants.role !== "admin"  && 
                 <TouchableHighlight underlayColor="#A9A9A9" onPress={function(){}} style={styles.btnDelete}>
-                        <Text style={styles.btnTxtDelete}>Delete</Text>
+                   <Text style={styles.btnTxtDelete}>Delete</Text>
                 </TouchableHighlight>
+                }
             </View>
         </View>
     </>

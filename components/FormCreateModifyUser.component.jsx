@@ -14,14 +14,40 @@ const FormCreateModifyUser = (props) => {
             password: password,
             role: role,
           };
-        const collectionRef = collection(db, 'users');
-        const docRef = await addDoc(collectionRef, userData);
-        if(!docRef){
-            userAdd=-1;
-         }
-        else{
-            userAdd=1;
+        if(props.title==="Add"){
+            const collectionRef = collection(db, 'users');
+            const docRef = await addDoc(collectionRef, userData);
+            if(!docRef){
+                userAdd=-1;
+             }
+            else{
+                userAdd=1;
+            }
+        }else{
+            const q = query(
+                collection(db, 'users'),
+                where('email', '==', props.email),
+                where('password', '==', props.password)
+              );
+              
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    return setError('User introuvable');
+                }
+
+                const userDoc = querySnapshot.docs[0];
+                const userRef = doc(db, 'users', userDoc.id);
+
+                try {
+                    await updateDoc(userRef,userData);
+
+                    console.log('User updated successfully');
+                } catch (error) {
+                    console.error('Error updating user: ', error);
+                }
         }
+
     }
     return (
         <>
@@ -44,7 +70,7 @@ const FormCreateModifyUser = (props) => {
                                 <Text style={styles.btnTxt}>{props.btn||"Create"}</Text>
                     </TouchableHighlight>
                 {   
-                    userAdd===1 && <Text style={styles.succ}>User added successfully</Text>              
+                    userAdd===1 && <Text style={styles.succ}>User {props.title}ed successfully</Text>              
                 }
                 {
                     userAdd===-1 &&<Text style={styles.fail}>Error ! Please try again</Text>

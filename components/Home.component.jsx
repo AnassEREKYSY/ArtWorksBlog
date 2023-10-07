@@ -22,6 +22,8 @@ const Home = ({navigation}) => {
           const querySnapshot = await getDocs(collection(db, "work_arts"));
           const art_works_snap = querySnapshot.docs.map((doc) => doc.data());
           set_art_works(art_works_snap);
+
+
         } catch (error) {
           console.error("Error fetching data: ", error);
         }
@@ -58,7 +60,7 @@ const Home = ({navigation}) => {
                 
                 const cardColor = colors[Math.ceil(Math.random() * colors.length)]
                 return(
-              <ArtWorkCard key={index} {...artWork} cardColor={cardColor} /> 
+              <ArtWorkCard key={index} {...artWork} cardColor={cardColor} email={data.identifiants.email}/> 
             )})}
           </ScrollView>
         </View>
