@@ -4,9 +4,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {collection, getDoc, getDocs, query} from "firebase/firestore" 
 import db from "../config"
 import ArtWorkCard from './ArtWorkCard.component';
-const Home = () => {
+import { useRoute } from '@react-navigation/native';
+const Home = ({navigation}) => {
+    const route = useRoute();
+    let profil=0;
+    const data=route.params;
     const [art_works, set_art_works] = useState([]);
     const colors=["#7788AA","#708090","#7788BB"];
+
+    if(route.params){
+      profil=1;
+    }
+    
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -26,11 +35,22 @@ const Home = () => {
         <View>
           <View style={styles.bar}>
             <Text style={styles.text}>Blog Wave</Text>
-            <TouchableOpacity style={styles.signIn} onPress={() => navigation.goBack()}>
-              <Icon name="sign-in" size={30} color="#708090" />
-            </TouchableOpacity>
+
+            {
+                 profil=1? 
+                 <TouchableOpacity style={styles.signIn} onPress={()=>navigation.navigate("userProfil" , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} }) }>
+                 {
+                     <Icon name="user" size={30} color="#708090" />
+                 }
+               </TouchableOpacity>:
+               <TouchableOpacity style={styles.signIn} onPress={()=>navigation.navigate("connexion") }>
+               {
+                   <Icon name="sign-in" size={30} color="#708090" />
+               }
+              </TouchableOpacity>
+            }
           </View>
-          <TouchableOpacity style={styles.add} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdArt",{"identifiants":{email:data.identifiants.email}})}>
             <Icon name="plus" size={20} color="white" />
           </TouchableOpacity>
           <ScrollView style={styles.Box}>

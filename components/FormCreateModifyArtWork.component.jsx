@@ -30,7 +30,8 @@ export default FormCreateModifyArtWork
 const styles = StyleSheet.create({
     main:{
         position:"relative",
-        top:50,
+        top:240,
+        alignItems:"center",
     },
     input : {
         borderColor : "black" ,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     },
     backIcon:{
         position:"fixed",
-        top:-130,
-        right:170,
+        top:70,
+        right:-30,
     },
 })

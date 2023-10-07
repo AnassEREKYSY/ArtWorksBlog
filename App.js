@@ -12,26 +12,42 @@ import UsersHome from './components/UsersHome.component';
 import FormCreateModifyArtWork from './components/FormCreateModifyArtWork.component';
 import DeletePopUp from './components/DeletePopUp.component';
 import { useState } from 'react';
-import Navigation from './navigation/Navigation.component'
+import {NavigationContainer} from '@react-navigation/native'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
+const Stack =createNativeStackNavigator();
 export default function App() {
 
   const [user, setUser] = useState({})
   return (
-    <View style={styles.container}>
-      {/* <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" /> */}
-      {/* <FromConnexion setUser={setUser} /> */}
-      {/* <FormCreateModifyArtWork title="Add" btn="Create"/> */}
-      <HomeManagement/>
-      {/* <UserProfil /> */}
-      {/* <UserCard /> */}
-      {/* <ArtWorkCard /> */}
-      {/* <ArtWorkDetails /> */}
-      {/* <UsersHome />  */}
-      {/* <Home />  */}
-      {/* <DeletePopUp/> */}
-    </View>
+
+    <NavigationContainer>
+        <Stack.Navigator>
+            
+            <Stack.Screen component={HomeManagement} name="homeManagement" options={{ headerShown: false }}/>
+            <Stack.Screen component={FromConnexion} name="connexion"  options={{ headerShown: false }}/>
+            <Stack.Screen component={Home} name="home"  options={{ headerShown: false }}/>
+            <Stack.Screen component={ArtWorkDetails} name="details"  options={{ headerShown: false }} />
+            <Stack.Screen component={FormCreateModifyArtWork} name="CrMdArt"  options={{ headerShown: false }}/>
+            <Stack.Screen component={FormCreateModifyUser} name="CrMdUser"  options={{ headerShown: false }}/>
+            <Stack.Screen component={UsersHome} name="usersHome"  options={{ headerShown: false }}/>
+            <Stack.Screen component={UserProfil} name="userProfil"  options={{ headerShown: false }}/>
+        </Stack.Navigator> 
+    </NavigationContainer>
+    // <View style={styles.container}>
+    //   {/* <Text>Open up App.js to start working on your app!</Text>
+    //   <StatusBar style="auto" /> */}
+    //   {/* <FromConnexion setUser={setUser} /> */}
+    //   {/* <FormCreateModifyArtWork title="Add" btn="Create"/> */}
+    //   <HomeManagement/>
+    //   {/* <UserProfil /> */}
+    //   {/* <UserCard /> */}
+    //   {/* <ArtWorkCard /> */}
+    //   {/* <ArtWorkDetails /> */}
+    //   {/* <UsersHome />  */}
+    //   {/* <Home />  */}
+    //   {/* <DeletePopUp/> */}
+    // </View>
   );
 }
 

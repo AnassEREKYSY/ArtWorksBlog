@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import UserCard from './UserCard.component';
 import {collection, getDoc, getDocs, query, where} from "firebase/firestore" 
 import db from "../config"
-const UsersHome = () => {
+const UsersHome = ({navigation}) => {
     const [users, setUers] = useState([]);
     const colors=["#7788AA","#708090","#7788BB"];
     useEffect(() => {
@@ -31,7 +31,7 @@ const UsersHome = () => {
                     <Icon name="home" size={30} color="#708090" />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.add} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdUser")}>
                     <Icon name="plus" size={20} color="white" />
             </TouchableOpacity>
             <ScrollView  style={styles.Box}>

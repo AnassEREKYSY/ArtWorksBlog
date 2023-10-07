@@ -3,31 +3,23 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeManagement = ({navigation}) => {
-    const handleClick = (type) => {
-        if(type==="user"){
-            navigation.navigate('usersHome')
-        }else{
-            navigation.navigate('home')
-        }
-        
-    }
   return (
-    <View>
+    <View style={styles.main}>
       <View style={styles.icons}>
-            <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.homeIcon} onPress={function(){}}>
                 <Icon name="user" size={30} color="#66CDBB" />
             </TouchableOpacity>
             <Text style={styles.text}>Home</Text>
-            <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.backIcon} onPress={function(){}}>
                 <Icon name="sign-out" size={30} color="#66CDBB" />
             </TouchableOpacity>
       </View>
       
       <View style={styles.btnBox}>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={handleClick("user")} style={styles.btn}>
+            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('usersHome')} style={styles.btn}>
                 <Text style={styles.btnTxt}>Users Management</Text>
             </TouchableHighlight>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={handleClick("art")} style={styles.btn}>
+            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('home')} style={styles.btn}>
                 <Text style={styles.btnTxt}>ArtWorks Management</Text>
             </TouchableHighlight>
       </View>
@@ -41,7 +33,7 @@ export default HomeManagement
 const styles = StyleSheet.create({
     main:{
         position:"relative",
-        top:50,
+        top:280,
     },
     input : {
         borderColor : "black" ,
@@ -98,6 +90,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width:380,
         position:"relative",
-        top:-190,
+        top:-215,
+        right:70,
     },
 })

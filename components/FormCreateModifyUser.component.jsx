@@ -1,8 +1,28 @@
 import { StyleSheet, Text, View ,TextInput, TouchableHighlight,TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { collection,getDoc, getDocs,doc, where, query, addDoc } from 'firebase/firestore';
+import db from '../config';
 const FormCreateModifyUser = (props) => {
+    let userAdd=0;
+    const [email,setEmail]=useState([])
+    const [password,setPassword]=useState([])
+    const [role,setRole]=useState([])
+    const handelPress=async()=>{
+        const userData={
+            email: email,
+            password: password,
+            role: role,
+          };
+        const collectionRef = collection(db, 'users');
+        const docRef = await addDoc(collectionRef, userData);
+        if(!docRef){
+            userAdd=-1;
+         }
+        else{
+            userAdd=1;
+        }
+    }
     return (
         <>
             <View style={styles.icons}>
@@ -16,13 +36,19 @@ const FormCreateModifyUser = (props) => {
             
             <View style={styles.main}>
                 <Text  style={styles.text}>{props.title ||"Add"} User</Text>
-                <TextInput placeholder="Role..." onChangeText={function(){}}  style={styles.input} value={props.role || null} />          
-                <TextInput placeholder="Email..." onChangeText={function(){}}  style={styles.input} value={props.email || null} keyboardType="email-address" />
-                <TextInput placeholder="Password..." onChangeText={function(){}} value={props.mdp || null} secureTextEntry={true} style={styles.input}  />
+                <TextInput placeholder="Role..." onChangeText={(role)=>setRole(role)}  style={styles.input} value={props.role || null} />          
+                <TextInput placeholder="Email..." onChangeText={(email)=>setEmail(email)}  style={styles.input} value={props.email || null} keyboardType="email-address" />
+                <TextInput placeholder="Password..." onChangeText={(password)=>setPassword(password)} value={props.mdp || null} secureTextEntry={true} style={styles.input}  />
                 <View style={styles.btnBox}>
-                    <TouchableHighlight underlayColor="#A9A9A9" onPress={function(){}} style={styles.btn}>
+                    <TouchableHighlight underlayColor="#A9A9A9" onPress={handelPress} style={styles.btn}>
                                 <Text style={styles.btnTxt}>{props.btn||"Create"}</Text>
                     </TouchableHighlight>
+                {   
+                    userAdd===1 && <Text style={styles.succ}>User added successfully</Text>              
+                }
+                {
+                    userAdd===-1 &&<Text style={styles.fail}>Error ! Please try again</Text>
+                }
                 </View>
             </View>
         </>
@@ -32,9 +58,16 @@ const FormCreateModifyUser = (props) => {
 export default FormCreateModifyUser
     
     const styles = StyleSheet.create({
+        succ:{
+            color:"green",
+        },  
+        fail:{
+            color:"red",
+        },
         main:{
             position:"relative",
-            top:50,
+            top:290,
+            alignItems:"center",
         },
         input : {
             borderColor : "black" ,
@@ -75,15 +108,16 @@ export default FormCreateModifyUser
         },
         backIcon:{
             position:"relative",
-            top:-200,
-            right:170,
+            top:80,
+            right:-20,
         },
         homeIcon:{
             position:"relative",
-            top:-200,
-            right:-150,
+            top:85,
+            right:-330,
         },
         icons:{
             flexDirection: 'row',
+         
         },
     })

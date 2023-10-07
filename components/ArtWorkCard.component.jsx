@@ -1,26 +1,46 @@
-import { Text , View, Image , StyleSheet } from "react-native"
-import React from 'react'
+import { Text , View, Image , StyleSheet, TouchableHighlight } from "react-native"
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-const ArtWorkCard = (props) => {
+import { collection,getDoc, getDocs,doc, where, query } from 'firebase/firestore';
+import db from '../config';
+const ArtWorkCard = (props,{navigation}) => {
+    const [error, setError] = useState(null);
+     const handelPress=async()=>{
+        const q = query(collection(db, "work_arts"), where("name","==",props.name)
+                                                    ,where("auteur","==",props.auteur)
+                                                    ,where("dt_creation","==",props.dt_creation));
+        const querySnapshot = await getDocs(q) 
+        const art = querySnapshot.docs[0].data()
+        if(!art){
+            return  setError("Artwork introuvable")
+         }
+        else{
+            navigation.navigate("details" , { identifiants : {art} })   
+        }
+    }
   return (
-    <View style={{...style.card , backgroundColor:props.cardColor}} >
-        <View style={style.zoneGauche}>
-            <View style={style.zoneGaucheTop}>
-                <Image source={{ uri : "http://via.placeholder.com/50x50" , width:50, height: 50 }}  style={style.img}/>
-                <View style={style.zoneGaucheNom}>
-                    <Text style={[style.h2, style.textWhite]}>Name :{props.name||"Name"}</Text>
-                    <Text style={[style.h3, style.textWhite]}>Author :{props.auteur||"Author"}</Text>
-                    <Text style={[style.h3, style.textWhite]}>Date :{props.dt_creation||"Date"}</Text>
+    <TouchableHighlight onPress={ handelPress}>          
+        <View style={{...style.card , backgroundColor:props.cardColor}}  >
+            <View style={style.zoneGauche}>
+                <View style={style.zoneGaucheTop}>
+                    <Image source={{ uri : "http://via.placeholder.com/50x50" , width:50, height: 50 }}  style={style.img}/>
+                    <View style={style.zoneGaucheNom}>
+                        <Text style={[style.h2, style.textWhite]}>Name :{props.name||"Name"}</Text>
+                        <Text style={[style.h3, style.textWhite]}>Author :{props.auteur||"Author"}</Text>
+                        <Text style={[style.h3, style.textWhite]}>Date :{props.dt_creation||"Date"}</Text>
+                    </View>
                 </View>
             </View>
+            <View style={style.zoneDroite}>
+                <TouchableHighlight onPress={()=> navigation.navigate("CrMdArt",{...props})} >
+                    <Icon name="pencil" size={25} color="#F0F8FF" />
+                </TouchableHighlight>
+                <TouchableHighlight >
+                    <Icon name="trash" size={25} color="#F0F8FF"/>
+                </TouchableHighlight>
+            </View>
         </View>
-        <View style={style.zoneDroite}>
-            <Icon name="angle-up" size={25} color="#F0F8FF" />
-            <Icon name="pencil" size={25} color="#F0F8FF" />
-            <Icon name="trash" size={25} color="#F0F8FF"/>
-        </View>
-    </View>
+    </TouchableHighlight>
   )
 }
 
@@ -57,7 +77,7 @@ const style = StyleSheet.create({
     },
     zoneDroite :{
         width:35,
-        justifyContent:"space-between",
+        justifyContent:"space-around",
         marginLeft:20,
     },
     zoneGaucheTop :{

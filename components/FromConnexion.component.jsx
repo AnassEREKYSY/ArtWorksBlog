@@ -2,7 +2,7 @@ import { StyleSheet, Text, View,TextInput,Button, TouchableHighlight } from 'rea
 import React ,{useState,useEffect}from 'react'
 import { collection,getDoc, getDocs,doc, where, query } from 'firebase/firestore';
 import db from '../config';
-const FromConnexion = ({setUser , navigation}) => {
+const FromConnexion = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -20,9 +20,13 @@ const FromConnexion = ({setUser , navigation}) => {
         else if(user.password !== password || user.email !== email ){
             return   setError("Utilisateur introuvable")
         }
+        else{
+            setEmail(email);
+            setPassword(password);
+            navigation.navigate("home" , { identifiants : {email , password} })   
+        }
 
-        setUser(user)
-        navigation.navigate("home" , { identifiants : {email , password} })   
+       
       };
   return (
     <View style={styles.main}> 
@@ -47,8 +51,11 @@ export default FromConnexion
 
 const styles = StyleSheet.create({
     main:{
+        alignContent:"center",
+        justifyContent:"center",
+        alignItems:"center",
         position:"relative",
-        top:85,
+        top:320,
     },
     input : {
         borderColor : "black" ,
@@ -63,7 +70,7 @@ const styles = StyleSheet.create({
         fontSize:40,
         marginVertical:-30,
         position:"absolute",
-        right:70,
+        right:105,
         top :-50,
         fontWeight:"700",
     },
