@@ -4,9 +4,24 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import UserCard from './UserCard.component';
 import {collection, getDoc, getDocs, query, where} from "firebase/firestore" 
 import db from "../config"
+import { useRoute } from '@react-navigation/native';
 const UsersHome = ({navigation}) => {
     const [users, setUers] = useState([]);
     const colors=["#7788AA","#708090","#7788BB"];
+    const route = useRoute();
+    const data=route.params;
+
+    const fetchData = async () => {
+        try {
+
+            const q = query(collection(db, "users"), where("role", "!=", "admin"));
+            const querySnapshot = await getDocs(q);
+            const users_snap = querySnapshot.docs.map((doc) => doc.data());
+            setUers(users_snap);
+        } catch (error) {
+          console.error("Error fetching data: ", error);
+        }
+    };
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -22,12 +37,18 @@ const UsersHome = ({navigation}) => {
   
       fetchData();
     }, []);
+    
+    if(data.identifiants.reload && data.identifiants.reload ===1 ){
+        fetchData();
+        data.identifiants.reload=0;
+  
+    }
   return (
     <View style={styles.home}>
         <View>
             <View style={styles.bar}>
                 <Text style={styles.text}>Blog Wave</Text>
-                <TouchableOpacity style={styles.signIn} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={styles.signIn} onPress={() => navigation.navigate("homeManagement" , { identifiants : {email:data.identifiants.email , password:data.identifiants.email} })}>
                     <Icon name="home" size={30} color="#708090" />
                 </TouchableOpacity>
             </View>

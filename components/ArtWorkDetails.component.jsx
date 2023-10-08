@@ -1,11 +1,15 @@
 import { Text , View, Image , StyleSheet,TouchableOpacity } from "react-native"
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useRoute } from "@react-navigation/native";
 
-const ArtWorkDetails = (props) => {
+const ArtWorkDetails = ({navigation}) => {
+    const route = useRoute();
+    const data=route.params;
+    const art=data.identifiants.art
   return (
     <>
-        <TouchableOpacity style={style.backIcon} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={style.backIcon} onPress={() => navigation.navigate("home" , { "identifiants":{email:data.identifiants.email} })}>
             <Icon name="arrow-left" size={25} color="black" />
         </TouchableOpacity>
         <View style={style.card} >
@@ -13,13 +17,13 @@ const ArtWorkDetails = (props) => {
                 <View style={style.zoneGaucheTop}>
                     <Image source={{ uri : "http://via.placeholder.com/50x50" , width:50, height: 50 }}  style={style.img}/>
                     <View style={style.zoneGaucheNom}>
-                        <Text style={[style.h2, style.textWhite]}>{props.nom||"Name"}</Text>
-                        <Text style={[style.h3, style.textWhite]}>Author :{props.auteur||"Author"}</Text>
+                        <Text style={[style.h2, style.textWhite]}>{art.name||"Name"}</Text>
+                        <Text style={[style.h3, style.textWhite]}>Author :{art.auteur||"Author"}</Text>
                         <Text style={[style.text, style.textWhite]}>
-                            {props.description||
+                            {art.description||
                             "Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu'il est prêt ou que la mise en page est achevée. Généralement, on utilise un texte en faux latin, le Lorem ipsum ou Lipsum"}
                         </Text>
-                        <Text style={[style.date, style.textWhite]}>{props.date||"Date"}</Text>
+                        <Text style={[style.date, style.textWhite]}>{art.date||"Date"}</Text>
                     </View>
                 </View>
             </View>

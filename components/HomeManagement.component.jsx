@@ -19,10 +19,10 @@ const HomeManagement = ({navigation}) => {
       </View>
       
       <View style={styles.btnBox}>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('usersHome')} style={styles.btn}>
+            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('usersHome',{identifiants:{email:data.identifiants.email,password:data.identifiants.password, navigation:navigation}})} style={styles.btn}>
                 <Text style={styles.btnTxt}>Users Management</Text>
             </TouchableHighlight>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('home')} style={styles.btn}>
+            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('home',{identifiants:{email:data.identifiants.email,password:data.identifiants.password , navigation:navigation}})} style={styles.btn}>
                 <Text style={styles.btnTxt}>ArtWorks Management</Text>
             </TouchableHighlight>
       </View>

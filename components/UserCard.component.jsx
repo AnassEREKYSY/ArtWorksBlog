@@ -1,8 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { collection,getDoc, getDocs,doc, where, query, deleteDoc } from 'firebase/firestore';
+import db from '../config';
 const UserCard = (props) => {
+    console.log(props)
+    const DeleteItem=async()=>{
+        const q = query(collection(db, "users"), where("email","==",props.email)
+                                                    ,where("password","==",props.password));
+        const querySnapshot = await getDocs(q) 
+        if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const userRef = doc(db, 'users', userDoc.id);
+
+            try {
+                await deleteDoc(userRef);
+                props.navigation.navigate("usersHome" , { identifiants : {reload:1}})   
+            } catch (error) {
+                console.error('Error deleting user:', error);
+            }
+        } else {
+            console.error('User not found');
+        }
+    }
   return (
     <View style={{...style.card , backgroundColor:props.cardColor}} >
         <View style={style.zoneGauche}>
@@ -16,11 +36,17 @@ const UserCard = (props) => {
         </View>
         <View style={style.zoneDroite}>
             <View style={style.zoneDroiteTop}>
-                <Icon name="trash" size={28} color="#F0F8FF" style={[style.text , style.center , style.mb30]}/>
+               
             </View>
             <View style={style.zoneDroiteMiddle}>
-                <Icon name="pencil" size={28} color="#F0F8FF" style={[style.number , style.center]}/>
+                <TouchableHighlight onPress={()=> props.navigation.navigate("CrMdUser",{"identifiants":{...props, title:"Update" , btn:"Update"} })} >
+                    <Icon name="pencil" size={28} color="#F0F8FF" style={[style.number , style.center]}/>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={DeleteItem}>
+                    <Icon name="trash" size={28} color="#F0F8FF" style={[style.text , style.center , style.mb30]}/>
+                </TouchableHighlight>
             </View>
+            
         </View>
     </View>
   )

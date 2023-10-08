@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableHighlight,TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableHighlight,TouchableOpacity, ScrollView, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {collection, getDoc, getDocs, query} from "firebase/firestore" 
@@ -8,12 +8,35 @@ import { useRoute } from '@react-navigation/native';
 const Home = ({navigation}) => {
     const route = useRoute();
     let profil=0;
+    let emptyHome=0
     const data=route.params;
     const [art_works, set_art_works] = useState([]);
-    const colors=["#7788AA","#708090","#7788BB"];
+    const colors=["#7788AA","#708090","#7788BB",];
 
     if(route.params){
       profil=1;
+    }
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "work_arts"));
+        const art_works_snap = querySnapshot.docs.map((doc) => doc.data());
+        if(art_works_snap.length<0){
+          emptyHome=1;
+        }else{
+          emptyHome=0
+        }
+        set_art_works(art_works_snap);
+
+
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    if(data.identifiants.reload ===1 ){
+      fetchData();
+      data.identifiants.reload=0;
+
     }
     
     useEffect(() => {
@@ -22,7 +45,11 @@ const Home = ({navigation}) => {
           const querySnapshot = await getDocs(collection(db, "work_arts"));
           const art_works_snap = querySnapshot.docs.map((doc) => doc.data());
           set_art_works(art_works_snap);
-
+          if(art_works_snap.length<0){
+            emptyHome=1;
+          }else{
+            emptyHome=0
+          }
 
         } catch (error) {
           console.error("Error fetching data: ", error);
@@ -31,7 +58,7 @@ const Home = ({navigation}) => {
   
       fetchData();
     }, []);
-  
+    console.log(emptyHome);
     return (
       <View style={styles.home}>
         <View>
@@ -39,7 +66,7 @@ const Home = ({navigation}) => {
             <Text style={styles.text}>Blog Wave</Text>
 
             {
-                 profil=1? 
+                 profil===1? 
                  <TouchableOpacity style={styles.signIn} onPress={()=>navigation.navigate("userProfil" , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} }) }>
                  {
                      <Icon name="user" size={30} color="#708090" />
@@ -52,17 +79,22 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
             }
           </View>
-          <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdArt",{"identifiants":{email:data.identifiants.email}})}>
+          <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdArt",{"identifiants":{email:data.identifiants.email , title:"Add"}})}>
             <Icon name="plus" size={20} color="white" />
           </TouchableOpacity>
-          <ScrollView style={styles.Box}>
-            {art_works.map((artWork, index) => {
-                
-                const cardColor = colors[Math.ceil(Math.random() * colors.length)]
-                return(
-              <ArtWorkCard key={index} {...artWork} cardColor={cardColor} email={data.identifiants.email}/> 
-            )})}
-          </ScrollView>
+          {
+              emptyHome===1 ? 
+              <Text style={styles.emptyText}>The blog is empty yet !!</Text>
+              :
+              <ScrollView style={styles.Box}>
+              {art_works.map((artWork, index) => {
+                  
+                  const cardColor = colors[Math.ceil(Math.random() * colors.length)]
+                  return(
+                <ArtWorkCard key={index} {...artWork} cardColor={cardColor} email={data.identifiants.email} navigation={navigation}/> 
+              )})}
+            </ScrollView>
+          }
         </View>
       </View>
     );
@@ -71,6 +103,14 @@ const Home = ({navigation}) => {
 export default Home
 
 const styles = StyleSheet.create({
+  emptyText:{
+    position:"relative",
+    top:15,
+    right:68,
+    color:"black",
+    fontSize:100,
+    zIndex:1,
+  },
     home:{
         flexDirection :"column",
         justifyContent:"space-between",

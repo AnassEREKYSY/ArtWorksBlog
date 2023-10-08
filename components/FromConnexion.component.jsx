@@ -16,10 +16,6 @@ const FromConnexion = ({navigation}) => {
         if(!user){
            return  setError("Utilisateur introuvable")
         }
-        
-        else if(user.password !== password || user.email !== email ){
-            return   setError("Utilisateur introuvable")
-        }
         else{
             setEmail(email);
             setPassword(password);

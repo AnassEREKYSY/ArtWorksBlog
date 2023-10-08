@@ -3,19 +3,25 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useRoute } from '@react-navigation/native';
 
-const UserProfil = (props) => {
+const UserProfil = ({navigation}) => {
     const route = useRoute();
     const data=route.params;
-    console.log("eyfgvjhsdv"+route.params)
   return (
     <>
-        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate("home")}>
+        <TouchableOpacity style={styles.homeIcon} onPress={
+            () =>{
+                data.identifiants.role !== "admin"?
+                navigation.navigate("home",{ identifiants : {email:data.identifiants.email, reload:1}}):
+                navigation.navigate("homeManagement",{ identifiants : {email:data.identifiants.email, reload:1}})
+            } 
+            
+            }>
             <Icon name="home" size={30} color="black" />
         </TouchableOpacity>
         <View style={styles.main}> 
             <Text  style={styles.text}>User Profil</Text>
-            <TextInput placeholder="Email..." onChangeText={function(){}}  style={styles.input} keyboardType="email-address" value={props.email || data.identifiants.email}/>
-            <TextInput placeholder="Password..." onChangeText={function(){}} secureTextEntry={true} style={styles.input} value={props.mdp || data.identifiants.password} />
+            <TextInput placeholder="Email..." onChangeText={function(){}}  style={styles.input} keyboardType="email-address" value={ data.identifiants.email}/>
+            <TextInput placeholder="Password..." onChangeText={function(){}} secureTextEntry={true} style={styles.input} value={data.identifiants.password} />
             <View style={styles.btnBox}>
                 <TouchableHighlight underlayColor="#A9A9A9" onPress={function(){}} style={styles.btnUpdate}>
                         <Text style={styles.btnTxt}>Update</Text>

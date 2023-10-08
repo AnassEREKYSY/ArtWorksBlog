@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { collection,getDoc, getDocs,doc, where, query, addDoc } from 'firebase/firestore';
 import db from '../config';
 const FormCreateModifyUser = (props) => {
-    let userAdd=0;
+    let userAddUpdate=0;
     const [email,setEmail]=useState([])
     const [password,setPassword]=useState([])
     const [role,setRole]=useState([])
@@ -18,10 +18,10 @@ const FormCreateModifyUser = (props) => {
             const collectionRef = collection(db, 'users');
             const docRef = await addDoc(collectionRef, userData);
             if(!docRef){
-                userAdd=-1;
+                userAddUpdate=-1;
              }
             else{
-                userAdd=1;
+                userAddUpdate=1;
             }
         }else{
             const q = query(
@@ -41,10 +41,9 @@ const FormCreateModifyUser = (props) => {
 
                 try {
                     await updateDoc(userRef,userData);
-
-                    console.log('User updated successfully');
+                    userAddUpdate=1;
                 } catch (error) {
-                    console.error('Error updating user: ', error);
+                    userAddUpdate=-1;
                 }
         }
 
