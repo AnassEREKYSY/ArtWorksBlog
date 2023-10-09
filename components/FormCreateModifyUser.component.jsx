@@ -3,18 +3,21 @@ import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { collection,getDoc, getDocs,doc, where, query, addDoc } from 'firebase/firestore';
 import db from '../config';
-const FormCreateModifyUser = (props) => {
+import { useRoute } from '@react-navigation/native';
+const FormCreateModifyUser = ({navigation}) => {
     let userAddUpdate=0;
-    const [email,setEmail]=useState([])
-    const [password,setPassword]=useState([])
-    const [role,setRole]=useState([])
+    const route = useRoute();
+    const data=route.params;
+    const [email,setEmail]=useState(data.identifiants.email || '')
+    const [password,setPassword]=useState(data.identifiants.password || '')
+    const [role,setRole]=useState(data.identifiants.role || '')
     const handelPress=async()=>{
         const userData={
             email: email,
             password: password,
             role: role,
           };
-        if(props.title==="Add"){
+        if(data.identifiants.btn === "Add" && data.identifiants){
             const collectionRef = collection(db, 'users');
             const docRef = await addDoc(collectionRef, userData);
             if(!docRef){
@@ -26,8 +29,8 @@ const FormCreateModifyUser = (props) => {
         }else{
             const q = query(
                 collection(db, 'users'),
-                where('email', '==', props.email),
-                where('password', '==', props.password)
+                where('email', '==', data.identifiants.email),
+                where('password', '==', data.identifiants.password)
               );
               
                 const querySnapshot = await getDocs(q);
@@ -51,28 +54,28 @@ const FormCreateModifyUser = (props) => {
     return (
         <>
             <View style={styles.icons}>
-                <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate("usersHome")}>
                     <Icon name="arrow-left" size={25} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={styles.homeIcon} onPress={() =>navigation.navigate("homeManagement")}>
                     <Icon name="home" size={30} color="black" />
                 </TouchableOpacity>
             </View>
             
             <View style={styles.main}>
-                <Text  style={styles.text}>{props.title ||"Add"} User</Text>
-                <TextInput placeholder="Role..." onChangeText={(role)=>setRole(role)}  style={styles.input} value={props.role || null} />          
-                <TextInput placeholder="Email..." onChangeText={(email)=>setEmail(email)}  style={styles.input} value={props.email || null} keyboardType="email-address" />
-                <TextInput placeholder="Password..." onChangeText={(password)=>setPassword(password)} value={props.mdp || null} secureTextEntry={true} style={styles.input}  />
+                <Text  style={styles.text}>{data.identifiants.title ||"Add"} User</Text>
+                <TextInput placeholder="Role..." onChangeText={(role)=>setRole(role)}  style={styles.input} value={data.identifiants.role || null} />          
+                <TextInput placeholder="Email..." onChangeText={(email)=>setEmail(email)}  style={styles.input} value={data.identifiants.email || null} keyboardType="email-address" />
+                <TextInput placeholder="Password..." onChangeText={(password)=>setPassword(password)} value={data.identifiants.password || null} secureTextEntry={true} style={styles.input}  />
                 <View style={styles.btnBox}>
                     <TouchableHighlight underlayColor="#A9A9A9" onPress={handelPress} style={styles.btn}>
-                                <Text style={styles.btnTxt}>{props.btn||"Create"}</Text>
+                                <Text style={styles.btnTxt}>{data.identifiants.btn||"Create"}</Text>
                     </TouchableHighlight>
                 {   
-                    userAdd===1 && <Text style={styles.succ}>User {props.title}ed successfully</Text>              
+                    userAddUpdate===1 && <Text style={styles.succ}>User {data.identifiants.title}ed successfully</Text>              
                 }
                 {
-                    userAdd===-1 &&<Text style={styles.fail}>Error ! Please try again</Text>
+                    userAddUpdate===-1 &&<Text style={styles.fail}>Error ! Please try again</Text>
                 }
                 </View>
             </View>

@@ -61,7 +61,7 @@ const UsersHome = ({navigation}) => {
                 
                     const cardColor = colors[Math.ceil(Math.random() * colors.length)]
                         return(
-                    <UserCard key={index} {...user} cardColor={cardColor} /> 
+                    <UserCard key={index} {...user} cardColor={cardColor} navigation={navigation} /> 
                 )})}
                 </View>
             </ScrollView>  
