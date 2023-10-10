@@ -13,7 +13,7 @@ const HomeManagement = ({navigation}) => {
                 <Icon name="user" size={30} color="#66CDBB" />
             </TouchableOpacity>
             <Text style={styles.text}>Home</Text>
-            <TouchableOpacity style={styles.backIcon} onPress={function(){}}>
+            <TouchableOpacity style={styles.backIcon} onPress={()=>navigation.navigate("connexion") }>
                 <Icon name="sign-out" size={30} color="#66CDBB" />
             </TouchableOpacity>
       </View>

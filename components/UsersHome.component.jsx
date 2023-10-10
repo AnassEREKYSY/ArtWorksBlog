@@ -52,7 +52,7 @@ const UsersHome = ({navigation}) => {
                     <Icon name="home" size={30} color="#708090" />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdUser")}>
+            <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdUser",{"identifiants":{email:data.identifiants.email , title:"Add", password:data.identifiants.password}})}>
                     <Icon name="plus" size={20} color="white" />
             </TouchableOpacity>
             <ScrollView  style={styles.Box}>

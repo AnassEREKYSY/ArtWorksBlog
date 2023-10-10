@@ -8,9 +8,9 @@ const FormCreateModifyUser = ({navigation}) => {
     let userAddUpdate=0;
     const route = useRoute();
     const data=route.params;
-    const [email,setEmail]=useState(data.identifiants.email || '')
-    const [password,setPassword]=useState(data.identifiants.password || '')
-    const [role,setRole]=useState(data.identifiants.role || '')
+    const [email,setEmail]=useState([])
+    const [password,setPassword]=useState([])
+    const [role,setRole]=useState([])
     const handelPress=async()=>{
         const userData={
             email: email,
@@ -36,7 +36,7 @@ const FormCreateModifyUser = ({navigation}) => {
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    return setError('User introuvable');
+                    return 'User introuvable';
                 }
 
                 const userDoc = querySnapshot.docs[0];
@@ -54,19 +54,19 @@ const FormCreateModifyUser = ({navigation}) => {
     return (
         <>
             <View style={styles.icons}>
-                <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate("usersHome")}>
+                <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate("usersHome" ,{"identifiants":{email:data.identifiants.email , password:data.identifiants.password , reload:1 }})}>
                     <Icon name="arrow-left" size={25} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.homeIcon} onPress={() =>navigation.navigate("homeManagement")}>
+                <TouchableOpacity style={styles.homeIcon} onPress={() =>navigation.navigate("homeManagement",{"identifiants":{email:data.identifiants.email , password:data.identifiants.password, reload:1 }} )}>
                     <Icon name="home" size={30} color="black" />
                 </TouchableOpacity>
             </View>
             
             <View style={styles.main}>
                 <Text  style={styles.text}>{data.identifiants.title ||"Add"} User</Text>
-                <TextInput placeholder="Role..." onChangeText={(role)=>setRole(role)}  style={styles.input} value={data.identifiants.role || null} />          
-                <TextInput placeholder="Email..." onChangeText={(email)=>setEmail(email)}  style={styles.input} value={data.identifiants.email || null} keyboardType="email-address" />
-                <TextInput placeholder="Password..." onChangeText={(password)=>setPassword(password)} value={data.identifiants.password || null} secureTextEntry={true} style={styles.input}  />
+                <TextInput placeholder="Role..." onChangeText={(role)=>setRole(role)}  style={styles.input} value={"" || null} />          
+                <TextInput placeholder="Email..." onChangeText={(email)=>setEmail(email)}  style={styles.input} value={"" || null} keyboardType="email-address" />
+                <TextInput placeholder="Password..." onChangeText={(password)=>setPassword(password)} value={"" || null} secureTextEntry={true} style={styles.input}  />
                 <View style={styles.btnBox}>
                     <TouchableHighlight underlayColor="#A9A9A9" onPress={handelPress} style={styles.btn}>
                                 <Text style={styles.btnTxt}>{data.identifiants.btn||"Create"}</Text>

@@ -79,7 +79,7 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
             }
           </View>
-          <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdArt",{"identifiants":{email:data.identifiants.email , title:"Add"}})}>
+          <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdArt",{"identifiants":{email:data.identifiants.email ,password:data.identifiants.password, title:"Add"}})}>
             <Icon name="plus" size={20} color="white" />
           </TouchableOpacity>
           {

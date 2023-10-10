@@ -11,8 +11,8 @@ const UserProfil = ({navigation}) => {
         <TouchableOpacity style={styles.homeIcon} onPress={
             () =>{
                 data.identifiants.role !== "admin"?
-                navigation.navigate("home",{ identifiants : {email:data.identifiants.email, reload:1}}):
-                navigation.navigate("homeManagement",{ identifiants : {email:data.identifiants.email, reload:1}})
+                navigation.navigate("home",{ identifiants : {email:data.identifiants.email,password:data.identifiants.password, reload:1}}):
+                navigation.navigate("homeManagement",{ identifiants : {email:data.identifiants.email,password:data.identifiants.password, reload:1}})
             } 
             
             }>

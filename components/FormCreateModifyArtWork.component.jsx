@@ -67,7 +67,7 @@ const FormCreateModifyArtWork = ({navigation}) => {
     }
   return (
         <>
-            <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate("home" , { "identifiants":{email:data.identifiants.email, reload:1} })}>
+            <TouchableOpacity style={styles.backIcon} onPress={() => navigation.navigate("home" , { "identifiants":{email:data.identifiants.email,password:data.identifiants.password, reload:1} })}>
                 <Icon name="arrow-left" size={25} color="black" />
             </TouchableOpacity>
             
