@@ -60,7 +60,7 @@ const ArtWorkCard = (props) => {
             <View style={style.zoneDroite}>
                 {
                     
-                    (data.identifiants.email===props.auteur || props.email==="admin@gmail.com") &&
+                    ( props.auteur ===data.identifiants.email|| props.email==="admin@gmail.com") &&
                 <>
                     <TouchableHighlight onPress={()=> props.navigation.navigate("CrMdArt",{"identifiants":{...props, title:"Update" , btn:"Update"} })} >
                         <Icon name="pencil" size={25} color="#F0F8FF" />

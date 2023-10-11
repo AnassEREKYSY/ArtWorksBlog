@@ -11,7 +11,7 @@ import Home from './components/Home.component';
 import UsersHome from './components/UsersHome.component';
 import FormCreateModifyArtWork from './components/FormCreateModifyArtWork.component';
 import DeletePopUp from './components/DeletePopUp.component';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
@@ -23,8 +23,8 @@ export default function App() {
 
     <NavigationContainer>
         <Stack.Navigator>
-            <Stack.Screen component={FromConnexion} name="connexion"  options={{ headerShown: false }}/>
-            <Stack.Screen component={HomeManagement} name="homeManagement" options={{ headerShown: false }}/>
+            <Stack.Screen component={FromConnexion} name="connexion"  options={{ headerShown: false,  }}/>
+            <Stack.Screen component={HomeManagement} name="homeManagement" options={{ headerShown: false,  }}/>
             <Stack.Screen component={Home} name="home"  options={{ headerShown: false }}/>
             <Stack.Screen component={ArtWorkDetails} name="details"  options={{ headerShown: false }} />
             <Stack.Screen component={FormCreateModifyArtWork} name="CrMdArt"  options={{ headerShown: false }}/>

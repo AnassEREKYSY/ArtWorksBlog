@@ -1,53 +1,81 @@
 import { StyleSheet, Text, View ,TextInput, TouchableHighlight,TouchableOpacity} from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { collection,getDoc, getDocs,doc, where, query, addDoc } from 'firebase/firestore';
 import db from '../config';
 import { useRoute } from '@react-navigation/native';
 const FormCreateModifyUser = ({navigation}) => {
-    let userAddUpdate=0;
     const route = useRoute();
     const data=route.params;
-    const [email,setEmail]=useState([])
-    const [password,setPassword]=useState([])
-    const [role,setRole]=useState([])
+    const [email,setEmail]=useState('')
+    const [password,setPassword]=useState('')
+    const [role,setRole]=useState('')
+    const [userAddUpdate, setUserAddUpdate] = useState(0);
+    const [isValidPassword, setIsValidPassword] = useState(true);
+    const [isValidEmail, setIsValidEmail] = useState(true);
+
+    const validatePassword = (text) => {
+        setPassword(text);
+        setIsValidPassword(text.length >= 4);
+      };
+    const validateEmail = (text) => {
+        setEmail(text);
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        setIsValidEmail(emailRegex.test(text));
+      };
+    useEffect(() => {
+        if (data.identifiants.btn === "Update" && data.identifiants) {
+            setEmail(data.identifiants.email);
+            setPassword(data.identifiants.password);
+            setRole(data.identifiants.role);
+        }
+    }, []);
     const handelPress=async()=>{
         const userData={
             email: email,
             password: password,
             role: role,
           };
-        if(data.identifiants.btn === "Add" && data.identifiants){
+        if(data.identifiants.title === "Add"){
+            console.log('add')
             const collectionRef = collection(db, 'users');
             const docRef = await addDoc(collectionRef, userData);
-            if(!docRef){
-                userAddUpdate=-1;
+            if(!docRef || !isValidPassword || !isValidEmail){
+                setUserAddUpdate(-1);
              }
             else{
-                userAddUpdate=1;
+                setUserAddUpdate(1);
+                    setEmail('');
+                    setPassword('');
+                    setRole('');
             }
         }else{
             const q = query(
                 collection(db, 'users'),
-                where('email', '==', data.identifiants.email),
-                where('password', '==', data.identifiants.password)
+                where('email', '==', userData.email),
               );
               
                 const querySnapshot = await getDocs(q);
-
                 if (querySnapshot.empty) {
                     return 'User introuvable';
                 }
-
-                const userDoc = querySnapshot.docs[0];
-                const userRef = doc(db, 'users', userDoc.id);
-
-                try {
-                    await updateDoc(userRef,userData);
-                    userAddUpdate=1;
-                } catch (error) {
-                    userAddUpdate=-1;
+                else if(!isValidPassword || !isValidEmail){
+                    setUserAddUpdate(-1)
+                }else{
+                    const userDoc = querySnapshot.docs[0];
+                    const userRef = doc(db, 'users', userDoc.id);
+    
+                    try {
+                        await updateDoc(userRef,userData);
+                        setUserAddUpdate(1);
+                        setEmail('');
+                        setPassword('');
+                        setRole('');
+                    } catch (error) {
+                        setUserAddUpdate(-1);
+                    }
                 }
+
         }
 
     }
@@ -64,9 +92,9 @@ const FormCreateModifyUser = ({navigation}) => {
             
             <View style={styles.main}>
                 <Text  style={styles.text}>{data.identifiants.title ||"Add"} User</Text>
-                <TextInput placeholder="Role..." onChangeText={(role)=>setRole(role)}  style={styles.input} value={"" || null} />          
-                <TextInput placeholder="Email..." onChangeText={(email)=>setEmail(email)}  style={styles.input} value={"" || null} keyboardType="email-address" />
-                <TextInput placeholder="Password..." onChangeText={(password)=>setPassword(password)} value={"" || null} secureTextEntry={true} style={styles.input}  />
+                <TextInput placeholder="Role..." onChangeText={(role)=>setRole(role)}  style={styles.input} value={role || null} />          
+                <TextInput placeholder="Email..." onChangeText={(text) => validateEmail(text)}  style={styles.input} value={email || null} keyboardType="email-address" />
+                <TextInput placeholder="Password..." onChangeText={(text) => validatePassword(text)} value={password || null} secureTextEntry={true} style={styles.input}  />
                 <View style={styles.btnBox}>
                     <TouchableHighlight underlayColor="#A9A9A9" onPress={handelPress} style={styles.btn}>
                                 <Text style={styles.btnTxt}>{data.identifiants.btn||"Create"}</Text>
@@ -75,7 +103,7 @@ const FormCreateModifyUser = ({navigation}) => {
                     userAddUpdate===1 && <Text style={styles.succ}>User {data.identifiants.title}ed successfully</Text>              
                 }
                 {
-                    userAddUpdate===-1 &&<Text style={styles.fail}>Error ! Please try again</Text>
+                    userAddUpdate===-1 &&<Text style={styles.fail}>Error ! Please check the email/password</Text>
                 }
                 </View>
             </View>

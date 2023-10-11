@@ -6,12 +6,13 @@ import db from "../config"
 import ArtWorkCard from './ArtWorkCard.component';
 import { useRoute } from '@react-navigation/native';
 const Home = ({navigation}) => {
+  
     const route = useRoute();
     let profil=0;
     let emptyHome=0
     const data=route.params;
     const [art_works, set_art_works] = useState([]);
-    const colors=["#7788AA","#708090","#7788BB",];
+    const colors=["#7788AA","#708090","#7788BB"];
 
     if(route.params){
       profil=1;
@@ -63,7 +64,10 @@ const Home = ({navigation}) => {
       <View style={styles.home}>
         <View>
           <View style={styles.bar}>
-            <Text style={styles.text}>Blog Wave</Text>
+            
+            <TouchableOpacity style={styles.text} onPress={()=>navigation.navigate("homeManagement" , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} }) }>
+                <Text style={styles.text}>Blog Wave</Text>
+            </TouchableOpacity>
 
             {
                  profil===1? 

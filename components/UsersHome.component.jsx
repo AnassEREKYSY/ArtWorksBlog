@@ -47,7 +47,10 @@ const UsersHome = ({navigation}) => {
     <View style={styles.home}>
         <View>
             <View style={styles.bar}>
-                <Text style={styles.text}>Blog Wave</Text>
+                <TouchableOpacity style={styles.text} onPress={() => navigation.navigate("homeManagement" , { identifiants : {email:data.identifiants.email , password:data.identifiants.email} })}>
+                    <Text style={styles.text}>Blog Wave</Text>
+                </TouchableOpacity>
+                
                 <TouchableOpacity style={styles.signIn} onPress={() => navigation.navigate("homeManagement" , { identifiants : {email:data.identifiants.email , password:data.identifiants.email} })}>
                     <Icon name="home" size={30} color="#708090" />
                 </TouchableOpacity>
