@@ -24,7 +24,7 @@ const UserCard = (props) => {
         }
     }
   return (
-    <View style={{...style.card , backgroundColor:props.cardColor}} >
+    <View style={{...style.card}} >
         <View style={style.zoneGauche}>
             <View style={style.zoneGaucheTop}>
                 <Icon name="user" size={40} color="#F0F8FF" style={style.img}/>
@@ -66,6 +66,7 @@ const style = StyleSheet.create({
         textAlign : "center"
     },
     card : {
+        backgroundColor:"#7788AA",
         marginHorizontal: 10,
         marginVertical:7,
         padding: 10, 

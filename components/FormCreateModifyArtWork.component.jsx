@@ -22,13 +22,11 @@ const FormCreateModifyArtWork = ({navigation}) => {
           setDescription(data.identifiants.description);
         }
     }, []);
+    const validateDate = (text) => {
+        setDt_creation(text);
+        const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/; setIsValidDate(dateRegex.test(text));
+      };
     const handelPress=async()=>{
-
-        const validateDate = (text) => {
-          setDate(text);
-          const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/; // Match date in MM/DD/YYYY format
-          setIsValidDate(dateRegex.test(text));
-        };
         const artData={
             name: name,
             image: image,

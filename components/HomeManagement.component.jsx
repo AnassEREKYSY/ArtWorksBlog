@@ -9,7 +9,7 @@ const HomeManagement = ({navigation}) => {
   return (
     <View style={styles.main}>
       <View style={styles.icons}>
-            <TouchableOpacity style={styles.homeIcon} onPress={()=>navigation.navigate("userProfil" , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password,role:"admin"} }) }>
+            <TouchableOpacity style={styles.homeIcon} onPress={function(){} }>
                 <Icon name="user" size={30} color="#66CDBB" />
             </TouchableOpacity>
             <Text style={styles.text}>Home</Text>
@@ -19,10 +19,10 @@ const HomeManagement = ({navigation}) => {
       </View>
       
       <View style={styles.btnBox}>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('usersHome',{identifiants:{email:data.identifiants.email,password:data.identifiants.password, navigation:navigation}})} style={styles.btn}>
+            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('usersHome',{identifiants:{email:data.identifiants.emailAdmin,password:data.identifiants.passwordAdmin, navigation:navigation}})} style={styles.btn}>
                 <Text style={styles.btnTxt}>Users Management</Text>
             </TouchableHighlight>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('home',{identifiants:{email:data.identifiants.email,password:data.identifiants.password , navigation:navigation}})} style={styles.btn}>
+            <TouchableHighlight underlayColor="#A9A9A9" onPress={()=> navigation.navigate('home',{identifiants:{email:data.identifiants.emailAdmin,password:data.identifiants.passwordAdmin , navigation:navigation}})} style={styles.btn}>
                 <Text style={styles.btnTxt}>ArtWorks Management</Text>
             </TouchableHighlight>
       </View>

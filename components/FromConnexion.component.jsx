@@ -20,7 +20,7 @@ const FromConnexion = ({navigation}) => {
             setEmail(email);
             setPassword(password);
             if(user.role==="admin"){
-                navigation.navigate("homeManagement" , { identifiants : {email:email , password:password} }) 
+                navigation.navigate("homeManagement" , { identifiants : {emailAdmin:email , passwordAdmin:password} }) 
             }else{
                 navigation.navigate("home" , { identifiants : {email:email , password:password} }) 
             }  

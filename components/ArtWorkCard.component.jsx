@@ -46,7 +46,7 @@ const ArtWorkCard = (props) => {
     }
   return (
     <TouchableHighlight onPress={ handelPress}>          
-        <View style={{...style.card , backgroundColor:props.cardColor}}  >
+        <View style={{...style.card}}  >
             <View style={style.zoneGauche}>
                 <View style={style.zoneGaucheTop}>
                     <Image source={{ uri : "http://via.placeholder.com/50x50" , width:50, height: 50 }}  style={style.img}/>
@@ -89,6 +89,7 @@ const style = StyleSheet.create({
         textAlign : "center"
     },
     card : {
+        backgroundColor:"#7788AA",
         marginHorizontal: 10,
         marginVertical:5,
         padding: 10, 

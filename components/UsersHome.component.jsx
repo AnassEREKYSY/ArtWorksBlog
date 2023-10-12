@@ -47,15 +47,15 @@ const UsersHome = ({navigation}) => {
     <View style={styles.home}>
         <View>
             <View style={styles.bar}>
-                <TouchableOpacity style={styles.text} onPress={() => navigation.navigate("homeManagement" , { identifiants : {email:data.identifiants.email , password:data.identifiants.email} })}>
+                <TouchableOpacity style={styles.text} onPress={() => navigation.navigate("homeManagement" , { identifiants : {email:data.identifiants.emailAdmin , password:data.identifiants.passwordAdmin} })}>
                     <Text style={styles.text}>Blog Wave</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.signIn} onPress={() => navigation.navigate("homeManagement" , { identifiants : {email:data.identifiants.email , password:data.identifiants.email} })}>
+                <TouchableOpacity style={styles.signIn} onPress={() => navigation.navigate("homeManagement" , { identifiants : {email:data.identifiants.emailAdmin , password:data.identifiants.passwordAdmin} })}>
                     <Icon name="home" size={30} color="#708090" />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdUser",{"identifiants":{email:data.identifiants.email , title:"Add", password:data.identifiants.password}})}>
+            <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdUser",{"identifiants":{email:data.identifiants.emailAdmin , title:"Add", password:data.identifiants.passwordAdmin}})}>
                     <Icon name="plus" size={20} color="white" />
             </TouchableOpacity>
             <ScrollView  style={styles.Box}>

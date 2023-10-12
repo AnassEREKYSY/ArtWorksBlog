@@ -14,6 +14,14 @@ const Home = ({navigation}) => {
     const [art_works, set_art_works] = useState([]);
     const colors=["#7788AA","#708090","#7788BB"];
 
+    const navigationFunction=(route)=>{
+      if(data.identifiants.emailAdmin && data.identifiants.emailAdmin==="admin@gmail.com"){
+        navigation.navigate(route , { "identifiants":{email:data.identifiants.emailAdmin, password:data.identifiants.passwordAdmin} })
+      }else{
+        navigation.navigate(route , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} })
+      }
+    }
+
     if(route.params){
       profil=1;
     }
@@ -59,19 +67,36 @@ const Home = ({navigation}) => {
   
       fetchData();
     }, []);
+
+    const backHome=()=>{
+      if(data.identifiants.role === "admin"){
+        navigationFunction("homeManagement")
+      }else{
+        navigationFunction("home" ,{ identifiants : {email:email , password:password} })
+      }
+    }
+    const profilNavigation = () => {
+      if (
+        !data.identifiants.role || 
+        data.identifiants.role !== "admin" ||
+        data.identifiants.role === null
+      ) {
+        navigationFunction("userProfil");
+      }
+    };
     console.log(emptyHome);
     return (
       <View style={styles.home}>
         <View>
           <View style={styles.bar}>
             
-            <TouchableOpacity style={styles.text} onPress={()=>navigation.navigate("homeManagement" , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} }) }>
+            <TouchableOpacity style={styles.text} onPress={backHome }>
                 <Text style={styles.text}>Blog Wave</Text>
             </TouchableOpacity>
 
             {
                  profil===1? 
-                 <TouchableOpacity style={styles.signIn} onPress={()=>navigation.navigate("userProfil" , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} }) }>
+                 <TouchableOpacity style={styles.signIn} onPress={profilNavigation}>
                  {
                      <Icon name="user" size={30} color="#708090" />
                  }
