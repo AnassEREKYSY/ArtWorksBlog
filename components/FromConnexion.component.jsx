@@ -5,44 +5,47 @@ import db from '../config';
 const FromConnexion = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(0);
     
     const handleLogin = async () => {
         const q = query(collection(db, "users"), where("email","==",email));
         const querySnapshot = await getDocs(q) 
-        const user = querySnapshot.docs[0].data()
-        console.log(user)
+        //const user = querySnapshot.docs[0].data()
+        const users = querySnapshot.docs.map(doc => doc.data());
 
-        if(!user){
-           return  setError("Utilisateur introuvable")
+        if(users.length === 0){
+           return  setError(-1)
         }
         else{
-            setEmail(email);
-            setPassword(password);
-            if(user.role==="admin"){
-                navigation.navigate("homeManagement" , { identifiants : {emailAdmin:email , passwordAdmin:password} }) 
-            }else{
-                navigation.navigate("home" , { identifiants : {email:email , password:password} }) 
-            }  
+            const user = users[0];
+            if (user.password === password) { 
+                setEmail(email);
+                setPassword(password);
+                if (user.role === "admin") {
+                  navigation.navigate("homeManagement", { identifiants: { emailAdmin: email, passwordAdmin: password } });
+                } else {
+                  navigation.navigate("home", { identifiants: { email: email, password: password } });
+                }
+                setError(1)
+            } else {
+                setError(-1);
+            }
         }
-
-       
       };
   return (
     <View style={styles.main}> 
       <Text  style={styles.text}>Connexion</Text>
       <TextInput placeholder="Email..."  onChangeText={(text) => setEmail(text)}  style={styles.input} keyboardType="email-address" />
       <TextInput placeholder="Password..." onChangeText={(text) => setPassword(text)} secureTextEntry={true} style={styles.input}  />
-      {error && <Text style={styles.errorText}>{error}</Text>}
         <View style={styles.btnBox}>
             <TouchableHighlight underlayColor="#A9A9A9" onPress={handleLogin} style={styles.btn1}>
                     <Text style={styles.btnTxt1}>Connexion</Text>
             </TouchableHighlight>
-            <TouchableHighlight underlayColor="#A9A9A9" onPress={function(){}} style={styles.btn2}>
-                    <Text style={styles.btnTxt2}>Sing Up</Text>
-            </TouchableHighlight>
-        </View>
-      
+            {
+            error===-1 && 
+                <Text style={styles.fail}>Email or password is incorrect</Text>
+            }
+        </View> 
     </View>
   )
 }
@@ -50,6 +53,9 @@ const FromConnexion = ({navigation}) => {
 export default FromConnexion
 
 const styles = StyleSheet.create({
+    fail:{
+        color:"red",
+    },    
     main:{
         alignContent:"center",
         justifyContent:"center",

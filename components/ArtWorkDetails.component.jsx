@@ -7,9 +7,10 @@ const ArtWorkDetails = ({navigation}) => {
     const route = useRoute();
     const data=route.params;
     const art=data.identifiants.art
+    console.log("==========="+art);
   return (
     <>
-        <TouchableOpacity style={style.backIcon} onPress={() => navigation.navigate("home" , { "identifiants":{email:data.identifiants.email} })}>
+        <TouchableOpacity style={style.backIcon} onPress={() => navigation.navigate("home" , { "identifiants":{email:data.identifiants.email,password:data.identifiants.password} })}>
             <Icon name="arrow-left" size={25} color="black" />
         </TouchableOpacity>
         <View style={style.card} >
@@ -27,11 +28,6 @@ const ArtWorkDetails = ({navigation}) => {
                     </View>
                 </View>
             </View>
-            <View style={style.zoneDroite}>
-                <Icon name="plus" size={25} color="#F0F8FF" />
-                <Icon name="pencil" size={25} color="#F0F8FF" />
-                <Icon name="trash" size={25} color="#F0F8FF"/>
-            </View>
         </View>
     </>
 
@@ -44,9 +40,9 @@ const style = StyleSheet.create({
     
     backIcon:{
         position:"relative",
-        top:-50,
+        top:50,
         marginVertical:35,
-        right:170,
+        right:-30,
     },
     mb30: {
         marginBottom : 30
@@ -67,9 +63,11 @@ const style = StyleSheet.create({
     card : {
         alignItems:"center",
         backgroundColor: "#778899",
+        position:"absolute",
+        top:200,
         margin: 10,
         padding: 10, 
-        height:585,
+        height:395,
         width:395,
         flexDirection : "column", 
         borderRadius: 88,

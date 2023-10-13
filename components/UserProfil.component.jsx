@@ -82,6 +82,9 @@ const UserProfil = ({navigation}) => {
                         <TouchableHighlight underlayColor="#A9A9A9" onPress={handelPress} style={styles.btnUpdate}>
                                 <Text style={styles.btnTxt}>Update</Text>
                         </TouchableHighlight>
+                        <TouchableHighlight underlayColor="#A9A9A9" onPress={()=>navigation.navigate("connexion")} style={styles.btnDelete}>
+                                <Text style={styles.btnTxtDelete}>Log out</Text>
+                        </TouchableHighlight>
                     </View>
                     {   
                         userAddUpdate===1 && <Text style={styles.succ}>User updated successfully</Text>              
@@ -91,7 +94,6 @@ const UserProfil = ({navigation}) => {
                     }
         </View>
     </>
-
   )
 }
 

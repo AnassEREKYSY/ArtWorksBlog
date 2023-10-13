@@ -15,7 +15,7 @@ const Home = ({navigation}) => {
     const colors=["#7788AA","#708090","#7788BB"];
 
     const navigationFunction=(route)=>{
-      if(data.identifiants.emailAdmin && data.identifiants.emailAdmin==="admin@gmail.com"){
+      if(data.identifiants.emailAdmin && data.identifiants.emailAdmin==="admin@yahoo.fr"){
         navigation.navigate(route , { "identifiants":{email:data.identifiants.emailAdmin, password:data.identifiants.passwordAdmin} })
       }else{
         navigation.navigate(route , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} })
@@ -69,10 +69,9 @@ const Home = ({navigation}) => {
     }, []);
 
     const backHome=()=>{
-      if(data.identifiants.role === "admin"){
-        navigationFunction("homeManagement")
-      }else{
-        navigationFunction("home" ,{ identifiants : {email:email , password:password} })
+      console.log(data.identifiants);
+      if(data.identifiants.role === "admin" || data.identifiants.emailAdmin === "admin@yahoo.fr" || data.identifiants.email === "admin@yahoo.fr"){
+        navigationFunction("homeManagement",{"identifiants":{emailAdmin:data.identifiants.emailAdmin , passwordAdmin:data.identifiants.passwordAdmin, reload:1 }})
       }
     }
     const profilNavigation = () => {

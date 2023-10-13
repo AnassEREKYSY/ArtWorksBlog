@@ -19,7 +19,7 @@ const ArtWorkCard = (props) => {
                 return  setError("Artwork introuvable")
             }
             else{
-                props.navigation.navigate("details" , { identifiants : {...art},email:props.auteur })   
+                props.navigation.navigate("details" , { identifiants :{art:art,email:props.auteur,navigation:props.navigation }})   
             }
         }else{
             console.log('error')
@@ -60,7 +60,7 @@ const ArtWorkCard = (props) => {
             <View style={style.zoneDroite}>
                 {
                     
-                    ( props.auteur ===data.identifiants.email|| props.email==="admin@gmail.com") &&
+                    ( props.auteur ===data.identifiants.email|| props.email==="admin@yahoo.fr") &&
                 <>
                     <TouchableHighlight onPress={()=> props.navigation.navigate("CrMdArt",{"identifiants":{...props, title:"Update" , btn:"Update"} })} >
                         <Icon name="pencil" size={25} color="#F0F8FF" />
