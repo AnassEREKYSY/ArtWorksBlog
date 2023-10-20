@@ -21,7 +21,8 @@ const FromConnexion = ({navigation}) => {
             if (user.password === password) { 
                 setEmail(email);
                 setPassword(password);
-                if (user.role === "admin") {
+                console.log(email+password);
+                if (user.role === "admin" || user.email==="admin@yahoo.fr") {
                   navigation.navigate("homeManagement", { identifiants: { emailAdmin: email, passwordAdmin: password } });
                 } else {
                   navigation.navigate("home", { identifiants: { email: email, password: password } });

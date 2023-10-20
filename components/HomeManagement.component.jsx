@@ -6,28 +6,10 @@ import { useRoute } from '@react-navigation/native';
 const HomeManagement = ({navigation}) => {
     const route = useRoute();
     const data=route.params;
-    const navigationFunction=(route)=>{
-        if(data.identifiants.emailAdmin && data.identifiants.emailAdmin==="admin@yahoo.fr"){
-          navigation.navigate(route , { "identifiants":{emailAdmin:data.identifiants.emailAdmin, passwordAdmin:data.identifiants.passwordAdmin} })
-        }else{
-          navigation.navigate(route , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} })
-        }
-      }
-    const profilNavigation = () => {
-        if (
-          !data.identifiants.role || 
-          data.identifiants.role !== "admin" ||
-          data.identifiants.role === null
-        ) {
-          navigationFunction("userProfil");
-        }
-      };
+    console.log("=================="+data)
   return (
     <View style={styles.main}>
       <View style={styles.icons}>
-            <TouchableOpacity style={styles.homeIcon} onPress={profilNavigation}>
-                <Icon name="user" size={30} color="#66CDBB" />
-            </TouchableOpacity>
             <Text style={styles.text}>Home</Text>
             <TouchableOpacity style={styles.backIcon} onPress={()=>navigation.navigate("connexion") }>
                 <Icon name="sign-out" size={30} color="#66CDBB" />

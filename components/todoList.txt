@@ -1,3 +1,0 @@
-email and password in the navigations params 
-update user
-inputs validation

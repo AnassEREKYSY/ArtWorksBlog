@@ -9,20 +9,29 @@ const Home = ({navigation}) => {
   
     const route = useRoute();
     let profil=0;
+    let admin=0;
     let emptyHome=0
     const data=route.params;
     const [art_works, set_art_works] = useState([]);
     const colors=["#7788AA","#708090","#7788BB"];
 
+    console.log("================"+data)
+
     const navigationFunction=(route)=>{
-      if(data.identifiants.emailAdmin && data.identifiants.emailAdmin==="admin@yahoo.fr"){
-        navigation.navigate(route , { "identifiants":{email:data.identifiants.emailAdmin, password:data.identifiants.passwordAdmin} })
+      if(data){
+        if(data.identifiants.emailAdmin && data.identifiants.emailAdmin==="admin@yahoo.fr"){
+          navigation.navigate(route , { "identifiants":{email:data.identifiants.emailAdmin, password:data.identifiants.passwordAdmin} })
+        }else{
+          navigation.navigate(route , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} })
+        }
       }else{
-        navigation.navigate(route , { "identifiants":{email:data.identifiants.email, password:data.identifiants.password} })
+        navigation.navigate(route)
       }
     }
-
-    if(route.params){
+    if(data && data.identifiants.emailAdmin!==null && data.identifiants.role === "admin"){
+      admin=1
+    }
+    if(data && data.identifiants.email!==null){
       profil=1;
     }
     const fetchData = async () => {
@@ -42,12 +51,12 @@ const Home = ({navigation}) => {
       }
     };
 
-    if(data.identifiants.reload ===1 ){
-      fetchData();
-      data.identifiants.reload=0;
-
-    }
-    
+    if(data){
+      if(data.identifiants.reload ===1 ){
+        fetchData();
+        data.identifiants.reload=0;
+      }
+    }    
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -64,26 +73,36 @@ const Home = ({navigation}) => {
           console.error("Error fetching data: ", error);
         }
       };
-  
       fetchData();
     }, []);
 
     const backHome=()=>{
-      console.log(data.identifiants);
-      if(data.identifiants.role === "admin" || data.identifiants.emailAdmin === "admin@yahoo.fr" || data.identifiants.email === "admin@yahoo.fr"){
-        navigationFunction("homeManagement",{"identifiants":{emailAdmin:data.identifiants.emailAdmin , passwordAdmin:data.identifiants.passwordAdmin, reload:1 }})
+      if(data){
+        if(data.identifiants.role === "admin" || data.identifiants.emailAdmin === "admin@yahoo.fr" || data.identifiants.email === "admin@yahoo.fr"){
+          navigationFunction("homeManagement",{"identifiants":{emailAdmin:data.identifiants.email , passwordAdmin:data.identifiants.password, reload:1 }})
+        }
       }
     }
     const profilNavigation = () => {
-      if (
-        !data.identifiants.role || 
-        data.identifiants.role !== "admin" ||
-        data.identifiants.role === null
-      ) {
-        navigationFunction("userProfil");
+      if(data && data.identifiants.email !==null  && profil ===1 ){
+        if (data.identifiants.role !== "admin"  && admin ===0) {
+          navigationFunction("userProfil");
+        }else{
+            //do nothing
+        }
       }
+      else{
+        navigationFunction("connexion");
+      }
+
     };
-    console.log(emptyHome);
+    const plusNavigation =()=>{
+      if(data && profil ===1){
+        navigation.navigate("CrMdArt",{"identifiants":{email:data.identifiants.email ,password:data.identifiants.password, title:"Add"}})
+      }else{
+        navigation.navigate("connexion")
+      }
+    }
     return (
       <View style={styles.home}>
         <View>
@@ -94,20 +113,20 @@ const Home = ({navigation}) => {
             </TouchableOpacity>
 
             {
-                 profil===1? 
+                 (profil===1)? 
                  <TouchableOpacity style={styles.signIn} onPress={profilNavigation}>
                  {
                      <Icon name="user" size={30} color="#708090" />
                  }
                </TouchableOpacity>:
-               <TouchableOpacity style={styles.signIn} onPress={()=>navigation.navigate("connexion") }>
+               <TouchableOpacity style={styles.signIn} onPress={profilNavigation}>
                {
                    <Icon name="sign-in" size={30} color="#708090" />
                }
               </TouchableOpacity>
             }
           </View>
-          <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("CrMdArt",{"identifiants":{email:data.identifiants.email ,password:data.identifiants.password, title:"Add"}})}>
+          <TouchableOpacity style={styles.add} onPress={plusNavigation}>
             <Icon name="plus" size={20} color="white" />
           </TouchableOpacity>
           {
@@ -118,9 +137,14 @@ const Home = ({navigation}) => {
               {art_works.map((artWork, index) => {
                   
                   const cardColor = colors[Math.ceil(Math.random() * colors.length)]
-                  return(
-                <ArtWorkCard key={index} {...artWork} cardColor={cardColor} email={data.identifiants.email} navigation={navigation}/> 
-              )})}
+                  
+                  return data ?(
+                    <ArtWorkCard key={index} {...artWork} cardColor={cardColor} email={data.identifiants.email} navigation={navigation}/> 
+                    ):
+                    (
+                      <ArtWorkCard key={index} {...artWork} cardColor={cardColor} email={null} navigation={navigation}/> 
+                    )
+              })}
             </ScrollView>
           }
         </View>

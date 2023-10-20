@@ -19,8 +19,12 @@ const ArtWorkCard = (props) => {
                 return  setError("Artwork introuvable")
             }
             else{
-                props.navigation.navigate("details" , { identifiants :{art:art,email:props.auteur,navigation:props.navigation }})   
-            }
+                if(props.email!==null){
+                    props.navigation.navigate("details" , { identifiants :{art:art,email:props.auteur,navigation:props.navigation }})   
+                }else{
+                    props.navigation.navigate("details" , { identifiants :{art:art,email:null,navigation:props.navigation }})   
+                }
+                }
         }else{
             console.log('error')
         }
@@ -36,7 +40,11 @@ const ArtWorkCard = (props) => {
 
             try {
                 await deleteDoc(artRef);
-                props.navigation.navigate("home" , { identifiants : {email:props.auteur , reload:1}})   
+                if(props.email===null){
+                    props.navigation.navigate("home")   
+                }else{
+                    props.navigation.navigate("home" , { identifiants : {email:props.auteur , reload:1}})   
+                }
             } catch (error) {
                 console.error('Error deleting artwork:', error);
             }
@@ -58,9 +66,8 @@ const ArtWorkCard = (props) => {
                 </View>
             </View>
             <View style={style.zoneDroite}>
-                {
-                    
-                    ( props.auteur ===data.identifiants.email|| props.email==="admin@yahoo.fr") &&
+                {   
+                    (data && ( props.auteur ===data.identifiants.email|| props.email==="admin@yahoo.fr" ) && props.email!==null) &&
                 <>
                     <TouchableHighlight onPress={()=> props.navigation.navigate("CrMdArt",{"identifiants":{...props, title:"Update" , btn:"Update"} })} >
                         <Icon name="pencil" size={25} color="#F0F8FF" />

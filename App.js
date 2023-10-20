@@ -20,9 +20,9 @@ export default function App() {
 
     <NavigationContainer>
         <Stack.Navigator>
+            <Stack.Screen component={Home} name="home"  options={{ headerShown: false , headerLeft: null,}}/>
             <Stack.Screen component={FromConnexion} name="connexion"  options={{ headerShown: false,  headerLeft: null,}}/>
             <Stack.Screen component={HomeManagement} name="homeManagement" options={{ headerShown: false, headerLeft: null, }}/>
-            <Stack.Screen component={Home} name="home"  options={{ headerShown: false , headerLeft: null,}}/>
             <Stack.Screen component={ArtWorkDetails} name="details"  options={{ headerShown: false , headerLeft: null,}} />
             <Stack.Screen component={FormCreateModifyArtWork} name="CrMdArt"  options={{ headerShown: false , headerLeft: null,}}/>
             <Stack.Screen component={FormCreateModifyUser} name="CrMdUser"  options={{ headerShown: false , headerLeft: null,}}/>
@@ -30,20 +30,6 @@ export default function App() {
             <Stack.Screen component={UserProfil} name="userProfil"  options={{ headerShown: false , headerLeft: null,}}/>
         </Stack.Navigator> 
     </NavigationContainer>
-    // <View style={styles.container}>
-    //   {/* <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="auto" /> */}
-    //   {/* <FromConnexion setUser={setUser} /> */}
-    //   {/* <FormCreateModifyArtWork title="Add" btn="Create"/> */}
-    //   <HomeManagement/>
-    //   {/* <UserProfil /> */}
-    //   {/* <UserCard /> */}
-    //   {/* <ArtWorkCard /> */}
-    //   {/* <ArtWorkDetails /> */}
-    //   {/* <UsersHome />  */}
-    //   {/* <Home />  */}
-    //   {/* <DeletePopUp/> */}
-    // </View>
   );
 }
 

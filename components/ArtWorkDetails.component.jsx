@@ -7,10 +7,16 @@ const ArtWorkDetails = ({navigation}) => {
     const route = useRoute();
     const data=route.params;
     const art=data.identifiants.art
-    console.log("==========="+art);
+    const backHome=()=>{
+        if(data){
+            navigation.navigate("home" , { "identifiants":{email:data.identifiants.email,password:data.identifiants.password} })
+        }else{
+            navigation.navigate("home")
+        }
+      }
   return (
     <>
-        <TouchableOpacity style={style.backIcon} onPress={() => navigation.navigate("home" , { "identifiants":{email:data.identifiants.email,password:data.identifiants.password} })}>
+        <TouchableOpacity style={style.backIcon} onPress={backHome}>
             <Icon name="arrow-left" size={25} color="black" />
         </TouchableOpacity>
         <View style={style.card} >
